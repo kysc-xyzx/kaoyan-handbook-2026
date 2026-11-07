@@ -25,4 +25,4 @@ python3 scripts/update-handbook.py "/path/to/新版手册.pdf"
 
 网页标题取自 PDF 的「标题」属性（WPS：文件 → 属性），没有时用文件名。
 
-浏览量和下载量不在网页上显示，由 WP 上的私有后台从 COS 访问日志统计：https://kysc-xyzx.chatghx.com（需管理密码）。
+浏览量和下载量不在网页上显示，由私有后台从 COS 访问日志统计。
