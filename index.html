@@ -2,11 +2,6 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<script>
-  // Count /index.html and the directory URL as one page: busuanzi keys page_pv by the page URL
-  if (/\/index\.html$/.test(location.pathname))
-    history.replaceState(null, "", location.pathname.replace(/index\.html$/, "") + location.search + location.hash);
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>考研手册 2026 · 经验分享篇</title>
 <meta name="description" content="华中科技大学光学与电子信息学院考研手册（2026 年版）经验分享篇，在线阅读与 PDF 下载">
@@ -29,7 +24,6 @@
          justify-content:space-between; margin:18px 0 20px; padding:10px 14px; background:var(--card);
          border:1px solid var(--line); border-radius:10px; }
   .stats { color:var(--muted); font-size:14px; }
-  .stats b { color:var(--fg); font-variant-numeric:tabular-nums; }
   .btn { display:inline-block; padding:7px 14px; border-radius:8px; background:var(--accent); color:#fff;
          text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap; }
   .pages { display:flex; flex-direction:column; gap:14px; }
@@ -49,7 +43,7 @@
   <p class="meta" id="meta">加载中…</p>
 
   <div class="bar">
-    <div class="stats">本页浏览 <b id="busuanzi_value_page_pv">–</b> 次</div>
+    <div class="stats">在线阅读 · 共 <span id="tot2">–</span> 页</div>
     <a class="btn" id="dl" href="https://hysinoss-1334037784.cos.ap-shanghai.myqcloud.com/public/kaoyan-handbook-2026/kaoyan-handbook-2026.pdf" rel="noopener">下载 PDF</a>
   </div>
 
@@ -85,7 +79,7 @@ const loadScript = src => new Promise((ok, fail) => {
   $("title").textContent = m.title;
   $("meta").textContent = `共 ${m.pages} 页 · PDF ${(m.size / 1048576).toFixed(1)} MB · 更新于 ${m.updated}`;
   $("dl").href = m.pdf;
-  $("tot").textContent = m.pages;
+  $("tot").textContent = $("tot2").textContent = m.pages;
   $("foot").textContent = m.file.replace(/\.pdf$/i, "");
 
   const box = $("pages"), v = encodeURIComponent(m.updated);
@@ -110,6 +104,5 @@ const loadScript = src => new Promise((ok, fail) => {
   $("pager").querySelector("a").onclick = e => { e.preventDefault(); scrollTo(0, 0); };
 })();
 </script>
-<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
