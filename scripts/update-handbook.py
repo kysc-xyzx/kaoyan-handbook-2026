@@ -30,7 +30,7 @@ import urllib.parse
 PREFIX = "public/kaoyan-handbook-2026"
 PDF_KEY = f"{PREFIX}/kaoyan-handbook-2026.pdf"
 PICLIST = "~/Library/Application Support/PicList/data.json"
-DPI = "110"
+DPI = "200"  # page images ~1654 px wide: sharp on high-DPI screens
 
 if len(sys.argv) != 2 or not sys.argv[1].lower().endswith(".pdf"):
     sys.exit(__doc__)
@@ -64,7 +64,7 @@ with tempfile.TemporaryDirectory() as tmp:
     out = os.path.join(tmp, "pages")
     os.mkdir(out)
     print(f"渲染 {pages} 页…")
-    subprocess.run(["pdftoppm", "-r", DPI, "-jpeg", "-jpegopt", "quality=82,progressive=y",
+    subprocess.run(["pdftoppm", "-r", DPI, "-jpeg", "-jpegopt", "quality=80,progressive=y",
                     src, os.path.join(out, "p")], check=True)
     for f in os.listdir(out):  # pdftoppm pads by page count; normalize to p-001.jpg
         n = int(re.search(r"(\d+)\.jpg$", f)[1])
