@@ -64,9 +64,26 @@ const loadScript = src => new Promise((ok, fail) => {
   document.head.appendChild(s);
 });
 
+// Anonymous per-browser id: random, kept only in this browser, so people behind one campus IP are
+// counted separately. It rides along on COS requests (visible only in the private access logs) and
+// on the real-time beacon; the page itself never shows or receives any count.
+const VID = (() => {
+  const fresh = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), b => (b % 36).toString(36)).join("");
+  try {
+    let id = localStorage.getItem("kysc_vid");
+    if (!/^[a-z0-9]{8,32}$/.test(id || "")) { id = fresh(); localStorage.setItem("kysc_vid", id); }
+    return id;
+  } catch (e) { return fresh(); }
+})();
+const BEACON = "https://kysc-hit.chatghx.com/h";
+const beacon = e => { try { navigator.sendBeacon(`${BEACON}?e=${e}&vid=${VID}`); } catch (err) {} };
+beacon("view");
+$("dl").href += `?vid=${VID}`;
+$("dl").addEventListener("click", () => beacon("dl"));
+
 (async () => {
   for (let t = 0; t < 4 && !window.HANDBOOK; t++) {
-    try { await loadScript(`${MANIFEST}?t=${Date.now()}`); }
+    try { await loadScript(`${MANIFEST}?t=${Date.now()}&vid=${VID}`); }
     catch (e) { await sleep(800 * (t + 1)); }
   }
   const m = window.HANDBOOK;
@@ -78,7 +95,7 @@ const loadScript = src => new Promise((ok, fail) => {
   document.title = m.title;
   $("title").textContent = m.title;
   $("meta").textContent = `共 ${m.pages} 页 · PDF ${(m.size / 1048576).toFixed(1)} MB · 更新于 ${m.updated}`;
-  $("dl").href = m.pdf;
+  $("dl").href = `${m.pdf}?vid=${VID}`;
   $("tot").textContent = $("tot2").textContent = m.pages;
   $("foot").textContent = m.file.replace(/\.pdf$/i, "");
 
