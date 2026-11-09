@@ -39,6 +39,7 @@ PBKDF2_ITERATIONS = 1_000_000
 # Letters and digits without the look-alikes i, l, o, 0, 1. The page lowercases input.
 PASSWORD_LETTERS = "abcdefghjkmnpqrstuvwxyz"
 PASSWORD_DIGITS = "23456789"
+PASSWORD_LENGTH = 8
 
 FRONT_TITLES = {"版权声明", "作者名单", "序", "免责声明"}
 TITLE = "华中科技大学光学与电子信息学院考研手册（2026年版）·经验分享篇"
@@ -70,9 +71,9 @@ def keychain_set(service, value):
 
 
 def new_password():
-    """Four characters, at least one letter and one digit."""
+    """Eight characters, at least one letter and one digit."""
     while True:
-        p = "".join(secrets.choice(PASSWORD_LETTERS + PASSWORD_DIGITS) for _ in range(4))
+        p = "".join(secrets.choice(PASSWORD_LETTERS + PASSWORD_DIGITS) for _ in range(PASSWORD_LENGTH))
         if set(p) & set(PASSWORD_LETTERS) and set(p) & set(PASSWORD_DIGITS):
             return p
 

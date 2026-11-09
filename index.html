@@ -28,8 +28,8 @@
   .gate-box { width:100%; max-width:340px; text-align:center; }
   .gate-box h1 { margin:0; font:600 26px/1.4 "Songti SC","Noto Serif CJK SC",serif; }
   .gate-box p { margin:6px 0 26px; color:var(--muted); font-size:15px; }
-  #pw { width:100%; height:58px; text-align:center; font:600 26px/1 ui-monospace,Menlo,monospace; letter-spacing:.42em;
-        text-indent:.42em; color:var(--fg); background:var(--card); border:1.5px solid var(--line); border-radius:12px; outline:none; }
+  #pw { width:100%; height:58px; text-align:center; font:600 24px/1 ui-monospace,Menlo,monospace; letter-spacing:.22em;
+        text-indent:.22em; color:var(--fg); background:var(--card); border:1.5px solid var(--line); border-radius:12px; outline:none; }
   #pw:focus { border-color:var(--accent); }
   #pw.bad { border-color:#c93a3a; animation:shake .3s; }
   @keyframes shake { 25% { transform:translateX(-6px); } 75% { transform:translateX(6px); } }
@@ -127,7 +127,7 @@
   <form class="gate-box" id="form" autocomplete="off">
     <h1>考研手册 2026</h1>
     <p>请输入访问密码</p>
-    <input id="pw" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="访问密码" autofocus>
+    <input id="pw" maxlength="8" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="访问密码" autofocus>
     <div id="msg" role="status"></div>
   </form>
 </section>
@@ -157,6 +157,7 @@
 // AES-GCM under a key derived from the access password. Nothing here can read them without it.
 const MANIFEST = "https://hysinoss-1334037784.cos.ap-shanghai.myqcloud.com/public/kaoyan-handbook-2026/manifest.js";
 const KEY_SLOT = "kysc_key";
+const PASSWORD_LENGTH = 8;
 const $ = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const loadScript = src => new Promise((ok, fail) => {
@@ -300,7 +301,7 @@ function render(doc) {
   let busy = false;
   const attempt = async () => {
     const value = pw.value.trim().toLowerCase();
-    if (busy || value.length !== 4) return;
+    if (busy || value.length !== PASSWORD_LENGTH) return;
     busy = true; pw.classList.remove("bad"); msg.textContent = "正在解锁…";
     await sleep(30);  // let the status paint before the slow key derivation
     try {
