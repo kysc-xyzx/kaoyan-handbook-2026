@@ -189,9 +189,27 @@ def image_tag(tag, urls):
             'loading="lazy" decoding="async">')
 
 
-def timeline_html(data, caption):
+def source_links(table):
+    """Reference number to official URL, from the source table under a timeline."""
+    found = (re.search(r'<td[^>]*>(?:<p>)?\[(\d+)\].*?<a href="([^"]+)"', row, re.S)
+             for row in re.findall(r"<tr[^>]*>(.*?)</tr>", table or "", re.S))
+    return {m[1]: m[2] for m in found if m}
+
+
+def timeline_html(data, caption, links):
     """One line of HTML for a timeline figure; the page styles it for light, dark and phone widths."""
     e = lambda s: html.escape(s, quote=False)
+
+    def ref_links(refs):
+        out = []
+        for n in re.findall(r"\d+", refs):
+            if n in links:
+                out.append(f'<a href="{links[n]}" target="_blank" rel="noopener">[{n}]</a>')
+            else:
+                print(f"注意：「{plain(caption)}」的来源表里没有编号 [{n}] 的链接。")
+                out.append(f"[{n}]")
+        return "".join(out)
+
     parts, kinds = [f"<figcaption>{caption}</figcaption>"], []
     parts += [f'<p class="tl-note">{e(n)}</p>' for n in data["notes"]]
     for group in data["groups"]:
@@ -205,7 +223,7 @@ def timeline_html(data, caption):
         for kind, date, title, detail, refs in rows:
             parts.append(f'<li class="tl-{kind}"><span class="tl-date">{e(date)}</span><span class="tl-dot"></span>'
                          f'<div class="tl-body"><strong>{e(title)}</strong><span>{e(detail)}</span></div>'
-                         f'<span class="tl-ref">{e(refs)}</span></li>')
+                         f'<span class="tl-ref">{ref_links(refs)}</span></li>')
         parts.append("</ol>")
     legend = "".join(f'<li class="tl-{k}"><span class="tl-dot"></span>{e(v)}</li>'
                      for k, v in TIMELINE_KINDS.items() if k in kinds)
@@ -217,13 +235,13 @@ def native_timelines(article):
     """Swap the timeline pictures for real elements; a picture we have no data for stays a picture."""
     def swap(m):
         if m[1] in TIMELINES:
-            return timeline_html(TIMELINES[m[1]], m[2])
+            return timeline_html(TIMELINES[m[1]], m[2], source_links(m[3])) + (m[3] or "")
         if "时间轴" in m[2]:
             print(f"注意：「{plain(m[2])}」的图片和脚本里的 TIMELINES 对不上，网页暂时显示图片。"
                   f"若时间轴有更新，请改 TIMELINES 并把键换成 {m[1]}。")
         return m[0]
-    return re.sub(r'<figure><img src="[^"]*?([0-9a-f]{16})\.\w+"[^>]*><figcaption>(.*?)</figcaption></figure>',
-                  swap, article)
+    return re.sub(r'<figure><img src="[^"]*?([0-9a-f]{16})\.\w+"[^>]*><figcaption>(.*?)</figcaption></figure>'
+                  r'(\s*<div class="tbl">.*?</table></div>)?', swap, article, flags=re.S)
 
 
 def slug(text, seen):
