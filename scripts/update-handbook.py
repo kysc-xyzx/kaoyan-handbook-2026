@@ -354,6 +354,8 @@ def build_article(pandoc_html, urls):
         if in_article and l.startswith("<p>") and "<" not in l[3:-4] and is_numbered_heading(t, next_t):
             heading(4, t)
             continue
+        if l.startswith("<p>") and re.match(r"第[一二三四五六七八九十]+章：", t):  # author list: not indented in Word
+            l = '<p class="flush">' + l[3:]
         out.append(l)
     close_ai()
     return native_timelines("\n".join(out))

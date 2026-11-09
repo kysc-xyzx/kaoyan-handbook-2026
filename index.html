@@ -92,6 +92,9 @@
   article h3 { margin:50px 0 12px; font-size:22px; }
   article h4 { margin:32px 0 8px; font-size:18px; }
   article p { margin:0 0 16px; overflow-wrap:break-word; }
+  /* Body text as in the Word file: justified with a two-character first-line indent. */
+  article > p:not(.byline):not(.part):not(.flush), .ai p { text-align:justify; text-indent:2em; }
+  article > p.flush { text-align:justify; }
   article img { max-width:100%; height:auto; }
   figure { margin:26px 0; }
   figure img { display:block; width:100%; background:#fff; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; }
