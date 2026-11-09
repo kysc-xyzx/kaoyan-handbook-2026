@@ -154,6 +154,16 @@ def encrypt(password, text):
     return json.loads(out)
 
 
+def sync_admin_password(password):
+    """Keep the one-click reader button on the WP statistics dashboard working after a password change."""
+    remote = ('cd ~/main/servers/kysc-stats && read -r p && sed -i "/^READER_PASSWORD=/d" .env && '
+              'printf "READER_PASSWORD=%s\\n" "$p" >> .env && systemctl --user restart kysc-stats')
+    r = subprocess.run(["ssh", "-o", "ConnectTimeout=15", "-o", "BatchMode=yes", "linux-ts", remote],
+                       input=password + "\n", text=True, capture_output=True)
+    print("后台的直达按钮已同步新密码。" if r.returncode == 0 else
+          f"注意：没能把新密码同步到后台，「打开手册」按钮暂时失效：{r.stderr.strip()}")
+
+
 def plain(fragment):
     return html.unescape(re.sub(r"<[^>]+>", "", fragment)).strip()
 
@@ -400,7 +410,8 @@ def main():
         subprocess.run(["rclone", *a, "--s3-acl", "public-read"], env=env, check=True)
 
     password = keychain_get(PASSWORD_SERVICE)
-    if rotate or not password:
+    fresh = rotate or not password
+    if fresh:
         password = new_password()
         keychain_set(PASSWORD_SERVICE, password)
         print(f"新访问密码：{password}")
@@ -449,6 +460,8 @@ def main():
                "--header-upload", "Content-Type: application/javascript; charset=utf-8",
                "--header-upload", "Cache-Control: no-cache")
 
+    if fresh:
+        sync_admin_password(password)
     print(f"\n完成：更新于 {updated}")
     print("在线阅读：https://kysc-xyzx.github.io/kaoyan-handbook-2026/")
 
