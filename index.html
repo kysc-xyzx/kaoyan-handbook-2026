@@ -284,6 +284,11 @@ function render(doc) {
 
 (async () => {
   const msg = $("msg"), pw = $("pw");
+  // Share link: https://…/#pw=<password>. The fragment never leaves the browser (not sent to GitHub,
+  // not in referrers or access logs); it is read once and removed from the address bar at once.
+  const fromLink = /^#pw=([A-Za-z0-9]+)$/.exec(location.hash);
+  const linkPw = fromLink ? fromLink[1].toLowerCase() : "";
+  if (fromLink) { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
   if (!window.crypto || !crypto.subtle) { msg.textContent = "当前浏览器不支持解密，请换用新版浏览器。"; pw.disabled = true; return; }
   for (let t = 0; t < 4 && !window.HANDBOOK; t++) {
     try { await loadScript(`${MANIFEST}?t=${Date.now()}&vid=${VID}`); }
@@ -317,6 +322,11 @@ function render(doc) {
   };
   $("form").addEventListener("submit", e => { e.preventDefault(); attempt(); });
   pw.addEventListener("input", attempt);
+  if (linkPw.length === PASSWORD_LENGTH) {
+    pw.value = linkPw;
+    await attempt();
+    if (!$("gate").hidden) { pw.value = ""; msg.textContent = "链接里的密码不正确，请手动输入"; }
+  }
 })();
 </script>
 </body>
