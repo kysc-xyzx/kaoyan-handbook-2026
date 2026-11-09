@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15171b" media="(prefers-color-scheme: dark)">
 <title>考研手册 2026 · 经验分享篇</title>
 <meta name="description" content="需要访问密码">
 <meta name="robots" content="noindex, nofollow, noarchive">
@@ -21,6 +23,8 @@
   body { margin:0; background:var(--bg); color:var(--fg);
          font:17px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
   a { color:var(--accent); }
+  a, button { -webkit-tap-highlight-color:transparent; }
+  body.locked { overflow:hidden; }
   [hidden] { display:none !important; }
 
   /* Password gate */
@@ -37,21 +41,24 @@
   #msg { min-height:24px; margin:12px 0 0; color:var(--muted); font-size:14px; }
 
   /* Reader chrome */
-  .top { position:sticky; top:0; z-index:20; height:var(--top); display:flex; align-items:center; gap:12px; padding:0 16px;
+  .top { position:sticky; top:0; z-index:20; height:var(--top); display:flex; align-items:center; gap:12px;
+         padding:0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
          background:var(--bg); border-bottom:1px solid var(--line); }
   .top strong { flex:1; min-width:0; font-size:15px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .btn { flex:none; display:inline-block; padding:6px 13px; border-radius:8px; border:1px solid transparent; background:var(--accent);
-         color:var(--bg); text-decoration:none; font:600 14px/1.5 inherit; font-family:inherit; white-space:nowrap; cursor:pointer; }
+         color:var(--bg); text-decoration:none; font-family:inherit; font-size:14px; font-weight:600; line-height:1.5; white-space:nowrap; cursor:pointer; }
   .btn.ghost { background:transparent; border-color:var(--line); color:var(--fg); }
   #open-nav { display:none; }
 
   .wrap { display:grid; grid-template-columns:292px minmax(0,1fr); max-width:1200px; margin:0 auto; }
   #side { position:sticky; top:var(--top); align-self:start; height:calc(100vh - var(--top)); overflow-y:auto; padding:22px 14px 40px 18px;
           border-right:1px solid var(--line); font-size:14px; line-height:1.55; overscroll-behavior:contain; }
-  #side h2 { margin:0 0 10px 8px; color:var(--muted); font-size:13px; font-weight:600; }
+  .side-head { display:flex; align-items:center; justify-content:space-between; margin:0 0 10px 8px; }
+  #side h2 { margin:0; color:var(--muted); font-size:13px; font-weight:600; }
+  #close-nav { display:none; }
   #outline, #outline ul { list-style:none; margin:0; padding:0; }
   #outline a { display:block; padding:5px 8px; border-radius:6px; color:var(--fg); text-decoration:none; }
-  #outline a:hover { background:var(--panel); }
+  @media (hover: hover) { #outline a:hover { background:var(--panel); } }
   #outline a.on { background:var(--accent-soft); color:var(--accent); font-weight:600; }
   #outline .l2 > a { font-weight:600; margin-top:6px; }
   #outline .l3 > a { padding-left:18px; }
@@ -74,19 +81,19 @@
   #toc h2 { margin:0 0 8px; padding:0; border:0; font-size:18px; }
   #toc ol { list-style:none; margin:0; padding:0; }
   #toc a { display:block; padding:4px 0; text-decoration:none; color:var(--fg); }
-  #toc a:hover { color:var(--accent); }
+  @media (hover: hover) { #toc a:hover { color:var(--accent); } }
   #toc .ch > a { font-weight:600; margin-top:6px; }
   #toc .art > a { padding-left:18px; color:var(--muted); }
-  #toc .art > a:hover { color:var(--accent); }
+  @media (hover: hover) { #toc .art > a:hover { color:var(--accent); } }
 
   article h2, article h3, article h4 { line-height:1.45; }
   article h2 { margin:60px 0 18px; padding-bottom:10px; border-bottom:2px solid var(--fg); font:700 27px/1.4 "Songti SC","Noto Serif CJK SC",serif; }
   article h3 { margin:50px 0 12px; font-size:22px; }
   article h4 { margin:32px 0 8px; font-size:18px; }
-  article p { margin:0 0 16px; }
+  article p { margin:0 0 16px; overflow-wrap:break-word; }
   article img { max-width:100%; height:auto; }
   figure { margin:26px 0; }
-  figure img { display:block; width:100%; background:#fff; border-radius:8px; border:1px solid var(--line); }
+  figure img { display:block; width:100%; background:#fff; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; }
   figcaption { margin-top:8px; text-align:center; color:var(--muted); font-size:14px; }
   .byline { color:var(--muted); font-size:15px; }
   .note { padding:12px 16px; border-left:3px solid var(--warm); background:var(--warm-soft); border-radius:0 8px 8px 0; font-size:15.5px; }
@@ -105,20 +112,55 @@
   th { border-bottom:1.5px solid var(--fg); font-weight:600; white-space:nowrap; }
   td p { margin:0; }
 
+  #zoom { position:fixed; inset:0; z-index:60; overflow:auto; display:flex; background:rgba(10,12,16,.94); -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+  #zoom img { display:block; flex:none; margin:auto; width:min(220vw,1265px); max-width:none; height:auto; background:#fff; }
+  #zoom button { position:fixed; z-index:61; top:max(12px, env(safe-area-inset-top)); right:max(12px, env(safe-area-inset-right)); padding:8px 16px; border:0; border-radius:999px;
+                 background:rgba(255,255,255,.92); color:#111; font:600 15px/1.4 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif; cursor:pointer; }
+  #totop { position:fixed; z-index:15; right:max(16px, env(safe-area-inset-right)); bottom:max(16px, env(safe-area-inset-bottom)); width:44px; height:44px; padding:0; border-radius:50%;
+           border:1px solid var(--line); background:var(--card); color:var(--fg); font-size:18px; line-height:1; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.14); }
+
   footer { max-width:740px; margin:56px auto 0; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; text-align:center; }
   #scrim { display:none; }
 
   @media (max-width: 960px) {
     .wrap { display:block; }
-    #open-nav { display:inline-block; }
-    #side { position:fixed; z-index:40; top:0; bottom:0; left:0; width:min(84vw,320px); height:auto; background:var(--bg);
-            transform:translateX(-102%); transition:transform .2s; border-right:1px solid var(--line); }
-    #side.open { transform:none; }
-    #scrim.open { display:block; position:fixed; inset:0; z-index:30; background:rgba(0,0,0,.4); }
-    main { padding-top:24px; }
+    #open-nav, #close-nav { display:inline-block; }
+    #side { position:fixed; z-index:40; top:0; bottom:0; left:0; width:min(86vw,340px); height:auto; background:var(--bg); visibility:hidden;
+            padding:14px 12px calc(32px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); font-size:15px;
+            transform:translateX(-102%); transition:transform .2s, visibility .2s; }
+    #side.open { transform:none; visibility:visible; }
+    #scrim.open { display:block; position:fixed; inset:0; z-index:30; background:rgba(0,0,0,.45); }
+    #outline a { padding:9px 10px; }
+    #outline .l3 > a { padding-left:20px; }
+    #outline .l4 > a { padding-left:34px; font-size:14px; }
+    main { padding:24px max(18px, env(safe-area-inset-right)) calc(88px + env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
+    #toc a { padding:7px 0; }
     .cover h1 { font-size:36px; }
     article h2 { font-size:24px; margin-top:48px; }
-    article h3 { font-size:20px; }
+    article h3 { font-size:20px; margin-top:42px; }
+    figcaption::after { content:" · 点图放大"; }
+  }
+  @media (prefers-reduced-motion: reduce) { #side { transition:none; } }
+
+  @media (max-width: 640px) {
+    body { font-size:16.5px; line-height:1.85; }
+    .cover .logo img { width:260px; }
+    .cover h1 { font-size:32px; margin-top:24px; }
+    .cover .sub { font-size:16px; }
+    #toc { padding:14px 16px 16px; }
+    .ai { padding:12px 14px 2px; }
+    .note { padding:10px 12px; }
+    .board { grid-template-columns:1fr; gap:0; }
+    .board dt { margin-top:8px; font-size:14px; }
+    /* Source tables become one card per row: number and publisher, then the linked title. */
+    .tbl { overflow:visible; margin:14px 0 22px; }
+    .tbl table, .tbl tbody, .tbl caption { display:block; width:100%; min-width:0; }
+    .tbl colgroup, .tbl thead { display:none; }
+    .tbl caption { text-align:left; }
+    .tbl tr { display:grid; grid-template-columns:auto 1fr; gap:2px 10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .tbl td { padding:0; border:0; }
+    .tbl td:nth-child(1), .tbl td:nth-child(2) { color:var(--muted); font-size:13.5px; }
+    .tbl td:nth-child(3) { grid-column:1 / -1; font-size:15px; line-height:1.55; }
   }
 </style>
 </head>
@@ -127,7 +169,7 @@
   <form class="gate-box" id="form" autocomplete="off">
     <h1>考研手册 2026</h1>
     <p>请输入访问密码</p>
-    <input id="pw" maxlength="8" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="访问密码" autofocus>
+    <input id="pw" maxlength="8" enterkeyhint="go" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="访问密码" autofocus>
     <div id="msg" role="status"></div>
   </form>
 </section>
@@ -140,7 +182,7 @@
   </div>
   <div class="wrap">
     <aside id="side" aria-label="大纲">
-      <h2>大纲</h2>
+      <div class="side-head"><h2>大纲</h2><button class="btn ghost" id="close-nav" type="button">关闭</button></div>
       <ul id="outline"></ul>
       <p class="info" id="info"></p>
     </aside>
@@ -150,6 +192,8 @@
     </main>
   </div>
   <div id="scrim"></div>
+  <button id="totop" type="button" aria-label="回到顶部" hidden>↑</button>
+  <div id="zoom" role="dialog" aria-label="查看大图" hidden><button type="button">关闭</button><img alt=""></div>
 </div>
 
 <script>
@@ -242,11 +286,14 @@ function render(doc) {
 
   // Highlight the section being read and keep it visible in the sidebar.
   let current = null, queued = false;
+  const narrow = matchMedia("(max-width: 960px)");
   const spy = () => {
     queued = false;
+    $("totop").hidden = scrollY < 700;
     const y = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--top"), 10) + 24;
     let active = null;
     for (const h of heads) { if (h.getBoundingClientRect().top <= y) active = h; else break; }
+    $("doc-title").textContent = narrow.matches && active ? active.textContent : doc.title;
     if (active === current) return;
     if (current) links.get(current).classList.remove("on");
     current = active;
@@ -268,9 +315,30 @@ function render(doc) {
   addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
 
   // Mobile outline drawer.
-  const drawer = open => { $("side").classList.toggle("open", open); $("scrim").classList.toggle("open", open); };
+  const locks = () => document.body.classList.toggle("locked", $("side").classList.contains("open") || !$("zoom").hidden);
+  const drawer = open => {
+    $("side").classList.toggle("open", open);
+    $("scrim").classList.toggle("open", open);
+    $("open-nav").setAttribute("aria-expanded", open);
+    locks();
+    if (open) { const on = document.querySelector("#outline a.on"); if (on) on.scrollIntoView({ block: "center" }); }
+  };
   $("open-nav").onclick = () => drawer(true);
+  $("close-nav").onclick = () => drawer(false);
   $("scrim").onclick = () => drawer(false);
+  $("totop").onclick = () => scrollTo(0, 0);
+
+  // Timeline figures are too dense for a phone width: tap to open them large and scroll around.
+  const zoom = src => {
+    $("zoom").querySelector("img").src = src || "";
+    $("zoom").hidden = !src;
+    if (src) $("zoom").scrollTo(0, 0);
+    locks();
+  };
+  $("article").addEventListener("click", e => { if (e.target.matches("figure img")) zoom(e.target.currentSrc || e.target.src); });
+  $("zoom").querySelector("button").onclick = () => zoom("");
+  $("zoom").addEventListener("click", e => { if (e.target.id === "zoom") zoom(""); });
+  addEventListener("keydown", e => { if (e.key === "Escape") { zoom(""); drawer(false); } });
   $("outline").addEventListener("click", e => { if (e.target.tagName === "A") drawer(false); });
 
   $("gate").hidden = true;
