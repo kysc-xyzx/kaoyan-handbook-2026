@@ -4,58 +4,159 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>考研手册 2026 · 经验分享篇</title>
-<meta name="description" content="华中科技大学光学与电子信息学院考研手册（2026 年版）经验分享篇，在线阅读与 PDF 下载">
+<meta name="description" content="需要访问密码">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="referrer" content="no-referrer-when-downgrade">
 <link rel="preconnect" href="https://hysinoss-1334037784.cos.ap-shanghai.myqcloud.com">
 <style>
-  :root { --bg:#f4f4f1; --card:#fff; --fg:#1d1d1f; --muted:#6b6b70; --accent:#1f5fbf; --line:#e3e2dd; }
+  :root { --bg:#fbfaf7; --panel:#f3f1ea; --card:#fff; --fg:#22242a; --muted:#6c6f78; --line:#e4e1d8;
+          --accent:#1c4d9e; --accent-soft:#e7eef9; --warm:#c8641b; --warm-soft:#fbf1e6;
+          --top:56px; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#141416; --card:#1f1f22; --fg:#ececee; --muted:#9a9aa2; --accent:#6ea2ff; --line:#2e2e33; }
+    :root { --bg:#15171b; --panel:#1b1e23; --card:#20242a; --fg:#e6e7ea; --muted:#9a9ea8; --line:#2e333b;
+            --accent:#83adf2; --accent-soft:#1f2c42; --warm:#eda261; --warm-soft:#33271c; }
   }
   * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
+  html { scroll-padding-top:calc(var(--top) + 16px); -webkit-text-size-adjust:100%; }
   body { margin:0; background:var(--bg); color:var(--fg);
-         font:16px/1.6 -apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
-  main { max-width:900px; margin:0 auto; padding:28px 16px 64px; }
-  h1 { margin:0; font-size:24px; line-height:1.35; }
-  .meta { margin:6px 0 0; color:var(--muted); font-size:14px; }
-  .bar { position:sticky; top:0; z-index:5; display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center;
-         justify-content:space-between; margin:18px 0 20px; padding:10px 14px; background:var(--card);
-         border:1px solid var(--line); border-radius:10px; }
-  .stats { color:var(--muted); font-size:14px; }
-  .btn { display:inline-block; padding:7px 14px; border-radius:8px; background:var(--accent); color:#fff;
-         text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap; }
-  .pages { display:flex; flex-direction:column; gap:14px; }
-  .pages img { display:block; width:100%; height:auto; background:#fff; border:1px solid var(--line);
-               border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
-  .pager { position:fixed; right:16px; bottom:16px; padding:6px 12px; border-radius:999px; background:var(--card);
-           border:1px solid var(--line); color:var(--muted); font-size:13px; font-variant-numeric:tabular-nums;
-           box-shadow:0 2px 8px rgba(0,0,0,.12); }
-  .pager a { color:var(--accent); text-decoration:none; margin-left:8px; }
-  .err { padding:24px; text-align:center; color:var(--muted); }
-  footer { margin-top:28px; color:var(--muted); font-size:13px; text-align:center; }
+         font:17px/1.9 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif; }
+  a { color:var(--accent); }
+  [hidden] { display:none !important; }
+
+  /* Password gate */
+  #gate { min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:24px 16px; }
+  .gate-box { width:100%; max-width:340px; text-align:center; }
+  .gate-box h1 { margin:0; font:600 26px/1.4 "Songti SC","Noto Serif CJK SC",serif; }
+  .gate-box p { margin:6px 0 26px; color:var(--muted); font-size:15px; }
+  #pw { width:100%; height:58px; text-align:center; font:600 26px/1 ui-monospace,Menlo,monospace; letter-spacing:.42em;
+        text-indent:.42em; color:var(--fg); background:var(--card); border:1.5px solid var(--line); border-radius:12px; outline:none; }
+  #pw:focus { border-color:var(--accent); }
+  #pw.bad { border-color:#c93a3a; animation:shake .3s; }
+  @keyframes shake { 25% { transform:translateX(-6px); } 75% { transform:translateX(6px); } }
+  @media (prefers-reduced-motion: reduce) { #pw.bad { animation:none; } }
+  #msg { min-height:24px; margin:12px 0 0; color:var(--muted); font-size:14px; }
+
+  /* Reader chrome */
+  .top { position:sticky; top:0; z-index:20; height:var(--top); display:flex; align-items:center; gap:12px; padding:0 16px;
+         background:var(--bg); border-bottom:1px solid var(--line); }
+  .top strong { flex:1; min-width:0; font-size:15px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .btn { flex:none; display:inline-block; padding:6px 13px; border-radius:8px; border:1px solid transparent; background:var(--accent);
+         color:var(--bg); text-decoration:none; font:600 14px/1.5 inherit; font-family:inherit; white-space:nowrap; cursor:pointer; }
+  .btn.ghost { background:transparent; border-color:var(--line); color:var(--fg); }
+  #open-nav { display:none; }
+
+  .wrap { display:grid; grid-template-columns:292px minmax(0,1fr); max-width:1200px; margin:0 auto; }
+  #side { position:sticky; top:var(--top); align-self:start; height:calc(100vh - var(--top)); overflow-y:auto; padding:22px 14px 40px 18px;
+          border-right:1px solid var(--line); font-size:14px; line-height:1.55; overscroll-behavior:contain; }
+  #side h2 { margin:0 0 10px 8px; color:var(--muted); font-size:13px; font-weight:600; }
+  #outline, #outline ul { list-style:none; margin:0; padding:0; }
+  #outline a { display:block; padding:5px 8px; border-radius:6px; color:var(--fg); text-decoration:none; }
+  #outline a:hover { background:var(--panel); }
+  #outline a.on { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  #outline .l2 > a { font-weight:600; margin-top:6px; }
+  #outline .l3 > a { padding-left:18px; }
+  #outline .l4 > a { padding-left:32px; color:var(--muted); font-size:13px; }
+  #outline .l4 > a.on { color:var(--accent); }
+  #side .info { margin:20px 8px 0; color:var(--muted); font-size:12.5px; }
+
+  main { min-width:0; padding:36px 16px 96px; }
+  article { max-width:740px; margin:0 auto; }
+  .cover { text-align:center; padding-bottom:12px; }
+  .cover .logo { display:inline-block; padding:10px 16px; background:#fff; border-radius:10px; }
+  .cover .logo img { display:block; width:300px; max-width:100%; height:auto; }
+  .cover h1 { margin:30px 0 0; font:700 44px/1.3 "Songti SC","Noto Serif CJK SC",serif; letter-spacing:.14em; text-indent:.14em; }
+  .cover .sub { margin:6px 0 26px; color:var(--muted); font-size:18px; letter-spacing:.08em; }
+  .cover > img { display:block; width:100%; height:auto; border-radius:12px; }
+  .cover .org { margin:22px 0 0; font-weight:600; font-size:16px; }
+  .cover .org span { display:block; color:var(--muted); font-weight:400; font-size:14px; }
+
+  #toc { margin:34px 0 8px; padding:18px 22px 20px; background:var(--panel); border-radius:12px; font-size:15.5px; line-height:1.6; }
+  #toc h2 { margin:0 0 8px; padding:0; border:0; font-size:18px; }
+  #toc ol { list-style:none; margin:0; padding:0; }
+  #toc a { display:block; padding:4px 0; text-decoration:none; color:var(--fg); }
+  #toc a:hover { color:var(--accent); }
+  #toc .ch > a { font-weight:600; margin-top:6px; }
+  #toc .art > a { padding-left:18px; color:var(--muted); }
+  #toc .art > a:hover { color:var(--accent); }
+
+  article h2, article h3, article h4 { line-height:1.45; }
+  article h2 { margin:60px 0 18px; padding-bottom:10px; border-bottom:2px solid var(--fg); font:700 27px/1.4 "Songti SC","Noto Serif CJK SC",serif; }
+  article h3 { margin:50px 0 12px; font-size:22px; }
+  article h4 { margin:32px 0 8px; font-size:18px; }
+  article p { margin:0 0 16px; }
+  article img { max-width:100%; height:auto; }
+  figure { margin:26px 0; }
+  figure img { display:block; width:100%; background:#fff; border-radius:8px; border:1px solid var(--line); }
+  figcaption { margin-top:8px; text-align:center; color:var(--muted); font-size:14px; }
+  .byline { color:var(--muted); font-size:15px; }
+  .note { padding:12px 16px; border-left:3px solid var(--warm); background:var(--warm-soft); border-radius:0 8px 8px 0; font-size:15.5px; }
+  .ai { margin:16px 0 22px; padding:14px 18px 2px; background:var(--accent-soft); border-radius:10px; font-size:15.5px; line-height:1.8; }
+  .ai .label { margin-bottom:6px; color:var(--accent); font-size:13px; font-weight:700; }
+  .ai p { margin-bottom:12px; }
+  .part { margin:26px 0 12px; color:var(--muted); font-size:13px; font-weight:700; letter-spacing:.06em; }
+  .board { display:grid; grid-template-columns:max-content 1fr; gap:6px 18px; margin:0 0 16px; font-size:16px; }
+  .board dt { color:var(--muted); }
+  .board dd { margin:0; display:flex; flex-wrap:wrap; gap:0 18px; }
+  .tbl { margin:18px 0 26px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  table { width:100%; min-width:520px; border-collapse:collapse; font-size:14.5px; line-height:1.6; }
+  caption { caption-side:top; padding-bottom:8px; color:var(--muted); font-size:14px; }
+  caption p { margin:0; }
+  th, td { padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { border-bottom:1.5px solid var(--fg); font-weight:600; white-space:nowrap; }
+  td p { margin:0; }
+
+  footer { max-width:740px; margin:56px auto 0; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; text-align:center; }
+  #scrim { display:none; }
+
+  @media (max-width: 960px) {
+    .wrap { display:block; }
+    #open-nav { display:inline-block; }
+    #side { position:fixed; z-index:40; top:0; bottom:0; left:0; width:min(84vw,320px); height:auto; background:var(--bg);
+            transform:translateX(-102%); transition:transform .2s; border-right:1px solid var(--line); }
+    #side.open { transform:none; }
+    #scrim.open { display:block; position:fixed; inset:0; z-index:30; background:rgba(0,0,0,.4); }
+    main { padding-top:24px; }
+    .cover h1 { font-size:36px; }
+    article h2 { font-size:24px; margin-top:48px; }
+    article h3 { font-size:20px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1 id="title">考研手册 2026 · 经验分享篇</h1>
-  <p class="meta" id="meta">加载中…</p>
+<section id="gate">
+  <form class="gate-box" id="form" autocomplete="off">
+    <h1>考研手册 2026</h1>
+    <p>请输入访问密码</p>
+    <input id="pw" maxlength="4" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" aria-label="访问密码" autofocus>
+    <div id="msg" role="status"></div>
+  </form>
+</section>
 
-  <div class="bar">
-    <div class="stats">在线阅读 · 共 <span id="tot2">–</span> 页</div>
-    <a class="btn" id="dl" href="https://hysinoss-1334037784.cos.ap-shanghai.myqcloud.com/public/kaoyan-handbook-2026/kaoyan-handbook-2026.pdf" rel="noopener">下载 PDF</a>
+<div id="app" hidden>
+  <div class="top">
+    <button class="btn ghost" id="open-nav" type="button">大纲</button>
+    <strong id="doc-title"></strong>
+    <a class="btn" id="dl" rel="noopener">下载 PDF</a>
   </div>
-
-  <section class="pages" id="pages"></section>
-  <footer id="foot"></footer>
-</main>
-<div class="pager" id="pager" hidden><span id="cur">1</span> / <span id="tot">–</span><a href="#">回到顶部</a></div>
+  <div class="wrap">
+    <aside id="side" aria-label="大纲">
+      <h2>大纲</h2>
+      <ul id="outline"></ul>
+      <p class="info" id="info"></p>
+    </aside>
+    <main>
+      <article id="article"></article>
+      <footer id="foot"></footer>
+    </main>
+  </div>
+  <div id="scrim"></div>
+</div>
 
 <script>
-// Content (manifest, page images, PDF) lives in Tencent COS and is replaced by 更新手册.py;
-// this page only renders it. manifest.js is a script (not JSON) so no bucket CORS rule is needed.
+// The article, image addresses and PDF address exist only inside manifest.js, encrypted with
+// AES-GCM under a key derived from the access password. Nothing here can read them without it.
 const MANIFEST = "https://hysinoss-1334037784.cos.ap-shanghai.myqcloud.com/public/kaoyan-handbook-2026/manifest.js";
+const KEY_SLOT = "kysc_key";
 const $ = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const loadScript = src => new Promise((ok, fail) => {
@@ -63,10 +164,10 @@ const loadScript = src => new Promise((ok, fail) => {
   s.src = src; s.onload = ok; s.onerror = fail;
   document.head.appendChild(s);
 });
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const unb64 = a => btoa(String.fromCharCode(...a));
 
-// Anonymous per-browser id: random, kept only in this browser, so people behind one campus IP are
-// counted separately. It rides along on COS requests (visible only in the private access logs) and
-// on the real-time beacon; the page itself never shows or receives any count.
+// Anonymous per-browser id for the private statistics; the page never shows or receives a count.
 const VID = (() => {
   const fresh = () => Array.from(crypto.getRandomValues(new Uint8Array(12)), b => (b % 36).toString(36)).join("");
   try {
@@ -78,47 +179,143 @@ const VID = (() => {
 const BEACON = "https://kysc-hit.chatghx.com/h";
 const beacon = e => { try { navigator.sendBeacon(`${BEACON}?e=${e}&vid=${VID}`); } catch (err) {} };
 beacon("view");
-$("dl").href += `?vid=${VID}`;
-$("dl").addEventListener("click", () => beacon("dl"));
+
+async function deriveKey(password, sealed) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits(
+    { name: "PBKDF2", hash: "SHA-256", salt: b64(sealed.salt), iterations: sealed.iter }, base, 256);
+  return new Uint8Array(bits);
+}
+async function openWith(raw, sealed) {
+  const key = await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(sealed.iv) }, key, b64(sealed.ct));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+function render(doc) {
+  document.title = doc.title;
+  $("doc-title").textContent = doc.title;
+  $("article").innerHTML = doc.html;
+  $("dl").href = `${doc.pdf}?vid=${VID}`;
+  $("dl").addEventListener("click", () => beacon("dl"));
+  $("info").textContent = `更新于 ${doc.updated} · PDF ${(doc.size / 1048576).toFixed(1)} MB`;
+  $("foot").textContent = doc.file.replace(/\.pdf$/i, "");
+
+  const heads = [...$("article").querySelectorAll("h2[id],h3[id],h4[id]")];
+  const link = h => `#${encodeURIComponent(h.id)}`;
+  const item = (h, level) => {
+    const li = document.createElement("li");
+    li.className = `l${level}`;
+    const a = document.createElement("a");
+    a.href = link(h); a.textContent = h.textContent;
+    li.appendChild(a);
+    return [li, a];
+  };
+
+  // Sidebar outline. Level-4 entries are shown only under the article being read.
+  const links = new Map();
+  let parent = null;
+  for (const h of heads) {
+    const level = +h.tagName[1];
+    const [li, a] = item(h, level);
+    if (level === 3) parent = h.id;
+    if (level === 2) parent = null;
+    if (level === 4) { li.dataset.parent = parent; li.hidden = true; }
+    $("outline").appendChild(li);
+    links.set(h, a);
+  }
+
+  // Table of contents inside the article: sections and articles.
+  const toc = $("toc");
+  toc.innerHTML = "<h2>目录</h2>";
+  const ol = document.createElement("ol");
+  for (const h of heads) {
+    if (h.tagName === "H4") continue;
+    const li = document.createElement("li");
+    li.className = h.tagName === "H2" ? "ch" : "art";
+    const a = document.createElement("a");
+    a.href = link(h); a.textContent = h.textContent;
+    li.appendChild(a); ol.appendChild(li);
+  }
+  toc.appendChild(ol);
+
+  // Highlight the section being read and keep it visible in the sidebar.
+  let current = null, queued = false;
+  const spy = () => {
+    queued = false;
+    const y = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--top"), 10) + 24;
+    let active = null;
+    for (const h of heads) { if (h.getBoundingClientRect().top <= y) active = h; else break; }
+    if (active === current) return;
+    if (current) links.get(current).classList.remove("on");
+    current = active;
+    let article = null;
+    if (active) {
+      links.get(active).classList.add("on");
+      for (let i = heads.indexOf(active); i >= 0; i--) {
+        if (heads[i].tagName === "H3") { article = heads[i].id; break; }
+        if (heads[i].tagName === "H2") break;
+      }
+    }
+    document.querySelectorAll("#outline .l4").forEach(li => { li.hidden = li.dataset.parent !== article; });
+    if (active) {
+      const a = links.get(active), side = $("side");
+      const r = a.getBoundingClientRect(), s = side.getBoundingClientRect();
+      if (r.top < s.top + 40 || r.bottom > s.bottom - 40) side.scrollTop += r.top - s.top - s.height / 3;
+    }
+  };
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
+
+  // Mobile outline drawer.
+  const drawer = open => { $("side").classList.toggle("open", open); $("scrim").classList.toggle("open", open); };
+  $("open-nav").onclick = () => drawer(true);
+  $("scrim").onclick = () => drawer(false);
+  $("outline").addEventListener("click", e => { if (e.target.tagName === "A") drawer(false); });
+
+  $("gate").hidden = true;
+  $("app").hidden = false;
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) target.scrollIntoView();
+  }
+  spy();
+}
 
 (async () => {
+  const msg = $("msg"), pw = $("pw");
+  if (!window.crypto || !crypto.subtle) { msg.textContent = "当前浏览器不支持解密，请换用新版浏览器。"; pw.disabled = true; return; }
   for (let t = 0; t < 4 && !window.HANDBOOK; t++) {
     try { await loadScript(`${MANIFEST}?t=${Date.now()}&vid=${VID}`); }
     catch (e) { await sleep(800 * (t + 1)); }
   }
-  const m = window.HANDBOOK;
-  if (!m) {
-    $("pages").innerHTML = "<div class=\"err\">页面加载失败，请刷新重试，或直接点上方「下载 PDF」。</div>";
-    $("meta").textContent = "";
-    return;
-  }
-  document.title = m.title;
-  $("title").textContent = m.title;
-  $("meta").textContent = `共 ${m.pages} 页 · PDF ${(m.size / 1048576).toFixed(1)} MB · 更新于 ${m.updated}`;
-  $("dl").href = `${m.pdf}?vid=${VID}`;
-  $("tot").textContent = $("tot2").textContent = m.pages;
-  $("foot").textContent = m.file.replace(/\.pdf$/i, "");
+  const sealed = window.HANDBOOK;
+  if (!sealed) { msg.textContent = "内容加载失败，请刷新重试。"; pw.disabled = true; return; }
 
-  const box = $("pages"), v = encodeURIComponent(m.updated);
-  for (let i = 1; i <= m.pages; i++) {
-    const img = new Image();
-    const src = `${m.base}/pages/p-${String(i).padStart(3, "0")}.jpg?v=${v}`;
-    let tries = 0;
-    img.onerror = () => { if (tries++ < 3) setTimeout(() => { img.src = src + "&r=" + tries; }, 1000 * tries); };
-    img.src = src;
-    img.alt = `第 ${i} 页`;
-    img.width = m.width; img.height = m.height;
-    img.dataset.n = i;
-    if (i > 2) img.loading = "lazy";
-    img.decoding = "async";
-    box.appendChild(img);
-  }
-  $("pager").hidden = false;
-  const io = new IntersectionObserver(es => {
-    for (const e of es) if (e.isIntersecting) $("cur").textContent = e.target.dataset.n;
-  }, { rootMargin: "-45% 0px -50% 0px" });
-  box.querySelectorAll("img").forEach(el => io.observe(el));
-  $("pager").querySelector("a").onclick = e => { e.preventDefault(); scrollTo(0, 0); };
+  // Same tab, after a refresh: reuse the derived key rather than asking again.
+  try {
+    const saved = sessionStorage.getItem(KEY_SLOT);
+    if (saved) { render(await openWith(b64(saved), sealed)); return; }
+  } catch (e) { try { sessionStorage.removeItem(KEY_SLOT); } catch (err) {} }
+
+  let busy = false;
+  const attempt = async () => {
+    const value = pw.value.trim().toLowerCase();
+    if (busy || value.length !== 4) return;
+    busy = true; pw.classList.remove("bad"); msg.textContent = "正在解锁…";
+    await sleep(30);  // let the status paint before the slow key derivation
+    try {
+      const raw = await deriveKey(value, sealed);
+      const doc = await openWith(raw, sealed);
+      try { sessionStorage.setItem(KEY_SLOT, unb64(raw)); } catch (e) {}
+      render(doc);
+    } catch (e) {
+      void pw.offsetWidth;
+      pw.classList.add("bad"); msg.textContent = "密码不正确"; pw.select();
+    }
+    busy = false;
+  };
+  $("form").addEventListener("submit", e => { e.preventDefault(); attempt(); });
+  pw.addEventListener("input", attempt);
 })();
 </script>
 </body>
