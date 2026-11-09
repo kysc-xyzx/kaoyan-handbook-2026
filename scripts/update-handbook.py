@@ -44,6 +44,76 @@ PASSWORD_LENGTH = 8
 FRONT_TITLES = {"版权声明", "作者名单", "序", "免责声明"}
 TITLE = "华中科技大学光学与电子信息学院考研手册（2026年版）·经验分享篇"
 
+# The timeline figures, shown on the web as real elements instead of the pictures in the Word file.
+# Keyed by the sha256 prefix of the picture they replace, so a changed picture in a new Word file
+# is shown as a picture (with a warning) rather than silently replaced by outdated dates here.
+# Rows: (kind, date, title, detail, references). Kinds: n national, u HUST or the school, w unpublished.
+# A plain string between groups is a "status as of" marker.
+TIMELINES = {
+    "df6040cb9306eff6": {
+        "notes": ["仅收录教育部、研招网、华中科技大学研究生院及光电学院正式发布、可在官网查到的节点，按时间先后等距排列（不按真实时长）。",
+                  "适用 2026 年硕士研究生招生考试（2025 年 12 月初试、2026 年秋季入学）。右侧编号对应图下来源表。"],
+        "groups": [
+            ("报名阶段（2025 年 6—11 月）", [
+                ("u", "2025-06-05", "光电学院预告调整 839 初试大纲", "《波动光学与激光原理》（839）考试大纲调整，附件为新版大纲", "[1]"),
+                ("n", "2025-09-24", "教育部印发 2026 年硕士招生工作管理规定", "报名、初试、复试、调剂、录取的全国统一规则均以此为准", "[2]"),
+                ("u", "2025-10-09", "华科发布 2026 年硕士招生简章及专业目录", "同日发布考试科目调整汇总", "[3]"),
+                ("n", "2025-10-10 — 10-13", "网上预报名", "每日 9:00—22:00，预报名信息有效，正式报名期间无需重复填报", "[4]"),
+                ("n", "2025-10-16 — 10-27", "正式网上报名", "每日 9:00—22:00，登录研招网填报并网上缴费", "[4]"),
+                ("u", "2025-10-31 — 11-05", "网上确认（华科报考点 4202）", "10-31 09:00 开始，首次上传截止 11-04 17:00，补充上传截止 11-05 17:00；其他报考点以当地公告为准", "[5]"),
+            ]),
+            ("初试（2025 年 12 月）", [
+                ("u", "考前约 10 天", "研招网下载打印准考证", "A4 纸打印；12-22 网报系统关闭后无法再下载", "[5]"),
+                ("n", "2025-12-20 — 12-21", "全国统一初试", "20 日上午政治/管综、下午外语；21 日上午业务课（一）、14:00 起业务课（二）", "[6]"),
+            ]),
+            ("成绩与复试（2026 年 2—3 月）", [
+                ("u", "2026-02-28", "华科公布初试成绩", "09:00 起在华科研招系统查询；复查申请 03-01 9:00 — 03-03 17:00", "[7]"),
+                ("n", "2026-02-28", "教育部公布国家线", "复试初试成绩基本要求；各招生单位在此基础上自定复试线", "[8]"),
+                ("u", "2026-03-15", "光电学院公布复试理论测试范围", "光学工程、光电信息工程：《光电技术》《激光技术》各占 50%；通信工程：《通信原理》；其余专业见细则", "[9]"),
+                ("u", "2026-03-16", "华科公布复试基本分数要求、院系复试线及复试细则", "复试报到系统 14:00 开放，网上报到并上传材料", "[10][11]"),
+                ("u", "2026-03-20 — 03-21", "光电学院复试报到与复试", "全校一志愿集中复试为 03-21 — 03-22，线下现场复试；光电学院按院系安排为 03-20 — 03-21", "[10]"),
+            ]),
+            ("调剂与录取（2026 年 3—6 月）", [
+                ("n", "2026-03-27", "调剂意向采集系统开通", "可查询、填报调剂意向，不等于正式调剂志愿", "[8]"),
+                ("n", "2026-04-08", "调剂服务系统开通", "每次开放不少于 12 小时，志愿锁定不超过 36 小时；华科各院系调剂方案同日起陆续发布", "[8][12][13]"),
+                ("n", "2026-04-30 前", "招生单位录取工作一般完成", "管理规定原文：录取工作一般应在录取当年 4 月底前完成", "[14]"),
+                ("u", "2026-06-29", "华科发布 2026 年研究生新生入学须知", "凭录取通知书、身份证件按规定日期报到", "[15]"),
+            ]),
+        ],
+        "foot": "核对日期 2026-11-02，具体以当年正式通知为准。2027 年考研见图1-2。",
+    },
+    "2d41724f9cb77cd6": {
+        "notes": ["适用 2027 年硕士研究生招生考试（2026 年 12 月初试、2027 年秋季入学），截至 2026-11-02。",
+                  "实心与空心节点均已由官方发布；灰色节点尚未公布，括号内为 2026 年同类节点的官方日期，仅供预估，出处见图1-1。"],
+        "groups": [
+            ("报名阶段（2026 年 9—10 月）", [
+                ("n", "2026-09-24", "教育部印发 2027 年硕士招生工作管理规定", "预报名、正式报名、初试日期及调剂、录取规则均已明确", "[1]"),
+                ("u", "2026-10-08", "华科发布 2027 年硕士招生简章及专业目录", "同日发布考试科目调整汇总，光电学院（182）不在调整之列", "[2][3]"),
+                ("n", "2026-10-09 — 10-12", "网上预报名", "每日 9:00—22:00，具体安排由各省级教育招生考试机构公布", "[1]"),
+                ("n", "2026-10-15 — 10-24", "正式网上报名", "每日 9:00—22:00，登录研招网填报并网上缴费", "[1]"),
+                ("u", "2026-10-26 — 10-31", "报名材料审核（华科报考点 4202）", "10-26 09:00 开始审核；首次审核截止 10-30 12:00，补充上传截止 10-31 12:00；其他报考点以当地公告为准", "[4]"),
+            ]),
+            "截至 2026-11-02",
+            ("初试（2026 年 12 月）", [
+                ("u", "考前约 10 天", "研招网下载打印准考证", "A4 纸打印；12-20 网报系统关闭后无法再下载；华科报考点 12-18 下午前可查考场", "[4]"),
+                ("n", "2026-12-19 — 12-20", "全国统一初试", "19 日上午政治/管综、下午外语；20 日上午业务课（一）、14:00 起业务课（二）", "[1]"),
+            ]),
+            ("成绩与复试（2027 年 2—3 月，日期待公布）", [
+                ("w", "待公布", "公布初试成绩", "（2026 年：02-28 华科公布，03-01 — 03-03 复查）", ""),
+                ("w", "待公布", "教育部公布国家线", "（2026 年：02-28）", ""),
+                ("w", "待公布", "光电学院复试测试范围；华科复试线及复试细则", "（2026 年：03-15 测试范围，03-16 复试线、细则，14:00 开放报到）", ""),
+                ("w", "待公布", "光电学院复试", "（2026 年：光电学院 03-20 — 03-21，全校集中 03-21 — 03-22）", ""),
+            ]),
+            ("调剂与录取（2027 年 3—4 月）", [
+                ("w", "待公布", "调剂意向采集系统、调剂服务系统开通", "（2026 年：03-27、04-08）已定规则：每次开放不少于 12 小时，志愿锁定不超过 36 小时", "[1]"),
+                ("n", "2027-04-30 前", "招生单位录取工作一般完成", "管理规定原文：录取工作一般应在录取当年 4 月底前完成", "[1]"),
+            ]),
+        ],
+        "foot": "各节点以教育部、研招网及招生单位后续正式通知为准；新通知发布后应更新本图。",
+    },
+}
+TIMELINE_KINDS = {"n": "全国统一节点（教育部 / 研招网）", "u": "华科 / 光电学院节点", "w": "尚未公布"}
+
 ENCRYPT_JS = r"""
 const c = require('crypto');
 let s = '';
@@ -117,6 +187,43 @@ def image_tag(tag, urls):
     dims = f' width="{round(float(size[1]) * 150)}" height="{round(float(size[2]) * 150)}"' if size else ""
     return (f'<img src="{urls[os.path.basename(src)]}"{dims} alt="{alt[1] if alt else ""}" '
             'loading="lazy" decoding="async">')
+
+
+def timeline_html(data, caption):
+    """One line of HTML for a timeline figure; the page styles it for light, dark and phone widths."""
+    e = lambda s: html.escape(s, quote=False)
+    parts, kinds = [f"<figcaption>{caption}</figcaption>"], []
+    parts += [f'<p class="tl-note">{e(n)}</p>' for n in data["notes"]]
+    for group in data["groups"]:
+        if isinstance(group, str):
+            parts.append(f'<p class="tl-now"><span>{e(group)}</span></p>')
+            continue
+        head, rows = group
+        kinds += [r[0] for r in rows]
+        pending = " tl-pending" if all(r[0] == "w" for r in rows) else ""
+        parts.append(f'<div class="tl-head{pending}">{e(head)}</div><ol class="tl-list">')
+        for kind, date, title, detail, refs in rows:
+            parts.append(f'<li class="tl-{kind}"><span class="tl-date">{e(date)}</span><span class="tl-dot"></span>'
+                         f'<div class="tl-body"><strong>{e(title)}</strong><span>{e(detail)}</span></div>'
+                         f'<span class="tl-ref">{e(refs)}</span></li>')
+        parts.append("</ol>")
+    legend = "".join(f'<li class="tl-{k}"><span class="tl-dot"></span>{e(v)}</li>'
+                     for k, v in TIMELINE_KINDS.items() if k in kinds)
+    parts.append(f'<ul class="tl-legend">{legend}</ul><p class="tl-foot">{e(data["foot"])}</p>')
+    return f'<figure class="tl">{"".join(parts)}</figure>'
+
+
+def native_timelines(article):
+    """Swap the timeline pictures for real elements; a picture we have no data for stays a picture."""
+    def swap(m):
+        if m[1] in TIMELINES:
+            return timeline_html(TIMELINES[m[1]], m[2])
+        if "时间轴" in m[2]:
+            print(f"注意：「{plain(m[2])}」的图片和脚本里的 TIMELINES 对不上，网页暂时显示图片。"
+                  f"若时间轴有更新，请改 TIMELINES 并把键换成 {m[1]}。")
+        return m[0]
+    return re.sub(r'<figure><img src="[^"]*?([0-9a-f]{16})\.\w+"[^>]*><figcaption>(.*?)</figcaption></figure>',
+                  swap, article)
 
 
 def slug(text, seen):
@@ -231,7 +338,7 @@ def build_article(pandoc_html, urls):
             continue
         out.append(l)
     close_ai()
-    return "\n".join(out)
+    return native_timelines("\n".join(out))
 
 
 def convert(docx, workdir):
@@ -297,7 +404,8 @@ def main():
         up = os.path.join(tmp, "img")
         os.mkdir(up)
         for f, n in names.items():
-            os.rename(os.path.join(media_dir, f), os.path.join(up, n))
+            if n in article:  # pictures replaced by native elements are not published
+                os.rename(os.path.join(media_dir, f), os.path.join(up, n))
         rclone("copy", up, f"cos:{bucket}/{PREFIX}/{token}/img", "--transfers", "8",
                "--header-upload", "Cache-Control: public, max-age=31536000")
 

@@ -13,10 +13,11 @@
 <style>
   :root { --bg:#fbfaf7; --panel:#f3f1ea; --card:#fff; --fg:#22242a; --muted:#6c6f78; --line:#e4e1d8;
           --accent:#1c4d9e; --accent-soft:#e7eef9; --warm:#c8641b; --warm-soft:#fbf1e6;
-          --top:56px; }
+          --top:56px; --tl-n:#2f5f8f; --tl-u:#2c8676; --tl-w:#b4b8bf; --tl-rail:#bcc7d6; }
   @media (prefers-color-scheme: dark) {
     :root { --bg:#15171b; --panel:#1b1e23; --card:#20242a; --fg:#e6e7ea; --muted:#9a9ea8; --line:#2e333b;
-            --accent:#83adf2; --accent-soft:#1f2c42; --warm:#eda261; --warm-soft:#33271c; }
+            --accent:#83adf2; --accent-soft:#1f2c42; --warm:#eda261; --warm-soft:#33271c;
+            --tl-n:#7aa7e0; --tl-u:#5cc4b0; --tl-w:#6c727c; --tl-rail:#3f4855; }
   }
   * { box-sizing:border-box; }
   html { scroll-padding-top:calc(var(--top) + 16px); -webkit-text-size-adjust:100%; }
@@ -95,6 +96,34 @@
   figure { margin:26px 0; }
   figure img { display:block; width:100%; background:#fff; border-radius:8px; border:1px solid var(--line); cursor:zoom-in; }
   figcaption { margin-top:8px; text-align:center; color:var(--muted); font-size:14px; }
+
+  /* Timeline figures, drawn from real elements. */
+  .tl { line-height:1.5; }
+  .tl figcaption { margin:0 0 8px; text-align:left; color:var(--fg); font-size:17px; font-weight:700; }
+  .tl .tl-note { margin:0 0 4px; color:var(--muted); font-size:14px; line-height:1.65; }
+  .tl-head { margin:16px 0 0; padding:6px 14px; background:var(--accent-soft); color:var(--accent); font-size:14px; font-weight:700; }
+  .tl-head.tl-pending { background:var(--panel); color:var(--muted); }
+  .tl-list, .tl-legend { list-style:none; margin:0; padding:0; }
+  .tl-list li { position:relative; display:grid; grid-template-columns:140px 18px minmax(0,1fr) 72px; column-gap:10px; align-items:center; padding:7px 8px; }
+  .tl-list li:nth-child(even) { background:var(--panel); }
+  .tl-date { text-align:right; font-size:13.5px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .tl-dot { position:relative; z-index:1; width:14px; height:14px; justify-self:center; border-radius:50%; background:var(--tl-n); }
+  .tl-u .tl-dot, .tl-w .tl-dot { background:var(--bg); border:3px solid var(--tl-u); }
+  .tl-w .tl-dot { border-color:var(--tl-w); }
+  /* The rail runs the full height of each row and stays behind the dot. */
+  .tl-list li::before { content:""; position:absolute; top:0; bottom:0; left:166px; border-left:2px solid var(--tl-rail); }
+  .tl-list li.tl-w::before { border-left-style:dashed; }
+  .tl-body strong { display:block; font-size:15.5px; font-weight:600; }
+  .tl-u .tl-body strong { color:var(--tl-u); }
+  .tl-body span { display:block; margin-top:1px; color:var(--muted); font-size:13.5px; }
+  .tl-w .tl-date, .tl-w .tl-body strong { color:var(--muted); }
+  .tl-ref { color:var(--muted); font-size:12.5px; font-variant-numeric:tabular-nums; }
+  .tl .tl-now { display:flex; align-items:center; gap:10px; margin:10px 0 -6px; color:var(--warm); font-size:13.5px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .tl-now::after { content:""; flex:1; border-top:1.5px dashed var(--warm); }
+  .tl-legend { display:flex; flex-wrap:wrap; gap:4px 24px; margin:14px 0 0; font-size:14px; }
+  .tl-legend li { display:flex; align-items:center; gap:7px; }
+  .tl-legend .tl-dot { width:12px; height:12px; }
+  .tl .tl-foot { margin:8px 0 0; color:var(--muted); font-size:13px; }
   .byline { color:var(--muted); font-size:15px; }
   .note { padding:12px 16px; border-left:3px solid var(--warm); background:var(--warm-soft); border-radius:0 8px 8px 0; font-size:15.5px; }
   .ai { margin:16px 0 22px; padding:14px 18px 2px; background:var(--accent-soft); border-radius:10px; font-size:15.5px; line-height:1.8; }
@@ -139,6 +168,7 @@
     article h2 { font-size:24px; margin-top:48px; }
     article h3 { font-size:20px; margin-top:42px; }
     figcaption::after { content:" · 点图放大"; }
+    .tl figcaption::after { content:none; }
   }
   @media (prefers-reduced-motion: reduce) { #side { transition:none; } }
 
@@ -161,6 +191,14 @@
     .tbl td { padding:0; border:0; }
     .tbl td:nth-child(1), .tbl td:nth-child(2) { color:var(--muted); font-size:13.5px; }
     .tbl td:nth-child(3) { grid-column:1 / -1; font-size:15px; line-height:1.55; }
+    /* Timeline: the rail moves to the left edge; date and references share the first line. */
+    .tl-head { padding:6px 10px; }
+    .tl-list li { grid-template-columns:18px minmax(0,1fr) auto; column-gap:8px; align-items:start; padding:8px 8px 8px 2px; }
+    .tl-list li::before { left:10px; }
+    .tl-list .tl-dot { grid-column:1; grid-row:1; margin-top:4px; }
+    .tl-list .tl-date { grid-column:2; grid-row:1; text-align:left; }
+    .tl-list .tl-ref { grid-column:3; grid-row:1; }
+    .tl-list .tl-body { grid-column:2 / -1; grid-row:2; margin-top:2px; }
   }
 </style>
 </head>
